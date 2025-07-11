@@ -1,7 +1,10 @@
 ![ChatGPT Image Jul 5, 2025 at 06_07_31 PM](https://github.com/user-attachments/assets/2660f828-49c7-444d-beca-d8b01854667a)
 # bitchat
 
-A secure, decentralized, peer-to-peer messaging app that works over Bluetooth mesh networks. No internet required, no servers, no phone numbers - just pure encrypted communication.
+> [!WARNING]
+> Private message and channel features have not received external security review and may contain vulnerabilities. Do not use for sensitive use cases, and do not rely on its security until it has been reviewed. Work in progress. Public local chat (the main feature) has no security concerns. 
+
+A decentralized peer-to-peer messaging app that works over Bluetooth mesh networks. No internet required, no servers, no phone numbers. It's the side-groupchat. 
 
 ## License
 
@@ -10,12 +13,12 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 ## Features
 
 - **Decentralized Mesh Network**: Automatic peer discovery and multi-hop message relay over Bluetooth LE
-- **End-to-End Encryption**: X25519 key exchange + AES-256-GCM for private messages
-- **Room-Based Chats**: Topic-based group messaging with optional password protection
+- **End-to-End Encryption**: X25519 key exchange + AES-256-GCM for private messages and channels
+- **Channel-Based Chats**: Topic-based group messaging with optional password protection
 - **Store & Forward**: Messages cached for offline peers and delivered when they reconnect
 - **Privacy First**: No accounts, no phone numbers, no persistent identifiers
 - **IRC-Style Commands**: Familiar `/join`, `/msg`, `/who` style interface
-- **Message Retention**: Optional room-wide message saving controlled by room owners
+- **Message Retention**: Optional channel-wide message saving controlled by channel owners
 - **Universal App**: Native support for iOS and macOS
 - **Cover Traffic**: Timing obfuscation and dummy messages for enhanced privacy
 - **Emergency Wipe**: Triple-tap to instantly clear all data
@@ -62,26 +65,29 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 
 ### Basic Commands
 
-- `/j #room` - Join or create a room
-- `/m @user message` - Send a private message
+- `/j #channel` - Join or create a channel
+- `/m @name message` - Send a private message
 - `/w` - List online users
-- `/rooms` - Show all discovered rooms
+- `/channels` - Show all discovered channels
+- `/block @name` - Block a peer from messaging you
+- `/block` - List all blocked peers
+- `/unblock @name` - Unblock a peer
 - `/clear` - Clear chat messages
-- `/pass [password]` - Set/change room password (owner only)
-- `/transfer @user` - Transfer room ownership
-- `/save` - Toggle message retention for room (owner only)
+- `/pass [password]` - Set/change channel password (owner only)
+- `/transfer @name` - Transfer channel ownership
+- `/save` - Toggle message retention for channel (owner only)
 
 ### Getting Started
 
 1. Launch bitchat on your device
 2. Set your nickname (or use the auto-generated one)
 3. You'll automatically connect to nearby peers
-4. Join a room with `/j #general` or start chatting in public
+4. Join a channel with `/j #general` or start chatting in public
 5. Messages relay through the mesh network to reach distant peers
 
-### Room Features
+### Channel Features
 
-- **Password Protection**: Room owners can set passwords with `/pass`
+- **Password Protection**: Channel owners can set passwords with `/pass`
 - **Message Retention**: Owners can enable mandatory message saving with `/save`
 - **@ Mentions**: Use `@nickname` to mention users (with autocomplete)
 - **Ownership Transfer**: Pass control to trusted users with `/transfer`
@@ -90,7 +96,7 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 
 ### Encryption
 - **Private Messages**: X25519 key exchange + AES-256-GCM encryption
-- **Room Messages**: Argon2id password derivation + AES-256-GCM
+- **Channel Messages**: Argon2id password derivation + AES-256-GCM
 - **Digital Signatures**: Ed25519 for message authenticity
 - **Forward Secrecy**: New key pairs generated each session
 
@@ -151,3 +157,8 @@ The protocol is designed to be platform-agnostic. An Android client can be built
 - Bluetooth LE APIs
 - Same packet structure and encryption
 - Compatible service/characteristic UUIDs
+
+## MacOS
+
+Want to try this on macos: `just run` will set it up and run from source. 
+Run `just clean` afterwards to restore things to original state for mobile app building and development.
